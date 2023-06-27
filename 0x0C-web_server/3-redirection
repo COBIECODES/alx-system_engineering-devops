@@ -1,18 +1,34 @@
 #!/usr/bin/env bash
-# A bash script that installs nginx on an ubuntu machine.
-# This scripts also configures the default webpage served to be "Hello World!"
-# When request url matches /redirect_me, it redirects to my youtube channel.
+# install nginx on web-01
 
-sudo apt-get update -y
+	sudo apt-get update
+	sudo apt-get -y install nginx
+ 	sudo ufw allow "Nginx HTTP"
 
-sudo apt-get install nginx -y
+	echo "Hello World!" | sudo tee /var/www/html/index.html
 
-echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 
-NEW_RULE="\\\n\tlocation = /redirect_me {\n\t\t return 301 https://youtu.be/mMJ3Gogi2Qk;\n\t}\n"
+SERVER_CONFIG=\
+	
+ "server {
+        listen 80 default_server;
+        listen [::]:80 default_server ipv6only=on;
 
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bakup
+        root /var/www/html;
+	  index index.html index.htm index.nginx-debian.html;
 
-sudo sed -i "53i $NEW_RULE" /etc/nginx/sites-available/default
+        server_name _;
+
+        location / {
+	  try_files $uri $uri/ =404;
+        }
+
+
+  location = /redirect_me {
+                return 301 https://youtu.be/mMJ3Gogi2Qk;
+	}
+}"
+
+bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default" 
 
 sudo service nginx restart

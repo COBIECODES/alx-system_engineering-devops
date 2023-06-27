@@ -1,4 +1,5 @@
-# Seting up my client config file
+#!/usr/bin/env bash
+# Setting up my client config file using puppet
 include stdlib
 
 file_line { 'Turn off passwd auth':

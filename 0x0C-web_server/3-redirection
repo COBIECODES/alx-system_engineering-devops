@@ -3,6 +3,11 @@
 
 apt-get update
 apt-get install -y nginx
+sudo apt-get -y install nginx
+sudo ufw allow "Nginx HTTP"
+
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
 cat > /etc/nginx/sites-available/default <<EOF
 server {
     listen 80 default_server;

@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 # A Bash script that accepts one argument
-# The script run the 'whoami' command under the user passed as an argument
+# The script runs the 'whoami' command under the user passed as an argument
 
+# Check if a username is provided as an argument
+if [ -z "$1" ]; then
+  echo "Error: No username provided."
+  exit 1
+fi
+
+# Get the name of the user passed as an argument
 sudo -u "$1" whoami

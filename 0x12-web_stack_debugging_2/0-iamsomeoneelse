@@ -9,4 +9,4 @@ if [ -z "$1" ]; then
 fi
 
 # Get the name of the user passed as an argument
-echo "$1"
+sudo -u "$1" sh -c 'whoami'
